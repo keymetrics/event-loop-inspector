@@ -1,0 +1,26 @@
+{
+  "name": "event-loop-inspector",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "nyc --reporter=html --reporter=text mocha ./test/**/*.mocha.js",
+    "lint": "eslint ./test ./index.js"
+  },
+  "author": "wallet77",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^4.15.0",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "mocha": "^5.0.0",
+    "mysql": "^2.15.0",
+    "nyc": "^11.4.1"
+  }
+}
