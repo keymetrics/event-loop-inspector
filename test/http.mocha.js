@@ -49,7 +49,7 @@ describe('HTTP server', function () {
 
         assert.equal(dump.handles.Socket[0].hasOwnProperty('headers'), true);
         assert.equal(dump.handles.Socket[0].headers.host, '127.0.0.1:8000');
-        // console.log(require('util').inspect(dump, false, null));
+
         server.close();
         done();
       });
