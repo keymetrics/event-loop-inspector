@@ -49,7 +49,6 @@ describe('Timers', function () {
       setImmediate(function setImmediateTest1 () {
         dump = inspector.dump();
         utils.testCommon(dump);
-        console.log(require('util').inspect(dump, {showHidden: false, depth: null}));
         assert.equal(dump.setImmediates.length, 2);
         assert.equal(dump.setImmediates[0].name, 'setImmediateTest2');
       });
