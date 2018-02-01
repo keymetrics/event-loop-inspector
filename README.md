@@ -18,6 +18,20 @@ It basically call core NodeJs functions _getActiveHandles and _getActiveRequests
 
 No dependency.
 
+# Compatibility
+
+Supported and tested : >= 4.x
+Not supported but should work : 0.12.x
+
+| Version       | Supported     | Tested         |
+| ------------- |:-------------:|:--------------:|
+| 9.x           | yes           | yes            |
+| 8.x           | yes           | yes            |
+| 7.x           | yes           | yes            |
+| 6.x           | yes           | yes            |
+| 4.x           | yes           | yes            |
+| 0.12.x        | no            | yes( manually) |
+| > 0.12.x      | no            | no             |
 
 # Installation
 

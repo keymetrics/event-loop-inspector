@@ -4,7 +4,7 @@
   "description": "Dump event loop data.",
   "main": "index.js",
   "engines": {
-    "node": ">=4.2.4"
+    "node": ">=4.0.0"
   },
   "keywords": ["envent-loop", "inspector", "nextTick", "setImmediate", "getActiveHandles", "getActiveRequests", "dump"],
   "homepage": "https://github.com/keymetrics/event-loop-inspector",
