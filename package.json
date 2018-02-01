@@ -1,12 +1,20 @@
 {
   "name": "event-loop-inspector",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "description": "Dump event loop data.",
   "main": "index.js",
   "engines": {
     "node": ">=4.0.0"
   },
-  "keywords": ["envent-loop", "inspector", "nextTick", "setImmediate", "getActiveHandles", "getActiveRequests", "dump"],
+  "keywords": [
+    "envent-loop",
+    "inspector",
+    "nextTick",
+    "setImmediate",
+    "getActiveHandles",
+    "getActiveRequests",
+    "dump"
+  ],
   "homepage": "https://github.com/keymetrics/event-loop-inspector",
   "directories": {
     "test": "test"
@@ -17,9 +25,9 @@
     "lint": "eslint ./test ./index.js"
   },
   "author": {
-    "name" : "Vincent Vallet",
-    "email" : "wallet77@gmail.com",
-    "url" : "https://github.com/wallet77"
+    "name": "Vincent Vallet",
+    "email": "wallet77@gmail.com",
+    "url": "https://github.com/wallet77"
   },
   "license": "MIT",
   "devDependencies": {
