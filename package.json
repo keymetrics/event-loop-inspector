@@ -7,13 +7,16 @@
     "node": ">=4.0.0"
   },
   "keywords": [
-    "envent-loop",
+    "event-loop",
     "inspector",
     "nextTick",
     "setImmediate",
     "getActiveHandles",
     "getActiveRequests",
-    "dump"
+    "dump",
+    "monitoring",
+    "stats",
+    "loop"
   ],
   "homepage": "https://github.com/keymetrics/event-loop-inspector",
   "directories": {
