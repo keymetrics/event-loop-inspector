@@ -9,7 +9,7 @@ describe('Next tick', function () {
     process.nextTick(function nextTickTest () {
       dump = inspector.dump();
       utils.testCommon(dump);
-      console.log(require('util').inspect(dump, {showHidden: false, depth: null}));
+
       var isAlive = false;
       for (var i = 0; i < dump.nextTicks.length; i++) {
         if (dump.nextTicks[i].name === 'nextTickTest') {

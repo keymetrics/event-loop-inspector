@@ -6,14 +6,13 @@ var utils = require('./utils');
 const {TCPConnectWrap} = process.binding('tcp_wrap');
 
 describe('getActiveRequests', function () {
-
   var oldGetActiveRequests;
 
-  before(function() {
+  before(function () {
     oldGetActiveRequests = process._getActiveRequests;
   });
 
-  after(function() {
+  after(function () {
     process._getActiveRequests = oldGetActiveRequests;
   });
 
