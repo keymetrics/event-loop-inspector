@@ -22,9 +22,10 @@ describe('cluster', function () {
       assert.equal(dump.handles.ChildProcess[0].killed, false);
       assert.equal(dump.handles.ChildProcess[0].hasOwnProperty('pid'), true);
       assert.equal(Number.isInteger(dump.handles.ChildProcess[0].pid), true);
-      assert.equal(dump.handles.ChildProcess[0].args.length, 4);
-      assert.equal(dump.handles.ChildProcess[0].args[2], './test/fixtures/worker.js');
-      assert.equal(dump.handles.ChildProcess[0].args[3], './test/**/*.mocha.js');
+      var argsLength = dump.handles.ChildProcess[0].args.length;
+      assert.equal(argsLength >= 3, true);
+      assert.equal(dump.handles.ChildProcess[0].args[argsLength - 2], './test/fixtures/worker.js');
+      assert.equal(dump.handles.ChildProcess[0].args[argsLength - 1], './test/**/*.mocha.js');
       assert.equal(dump.handles.ChildProcess[0].hasOwnProperty('spawnfile'), true);
       assert.equal(dump.handles.ChildProcess[0].spawnfile, dump.handles.ChildProcess[0].args[0]);
 

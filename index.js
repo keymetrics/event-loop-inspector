@@ -119,10 +119,10 @@ function extractSocket (result, socket) {
     result.info = 'unknown socket';
   }
 
-  if (socket.parser && socket.parser.outgoing) {
-    result.method = socket.parser.outgoing.method;
-    result.path = socket.parser.outgoing.path;
-    result.headers = socket.parser.outgoing._headers;
+  if (socket._httpMessage) {
+    result.method = socket._httpMessage.method;
+    result.path = socket._httpMessage.path;
+    result.headers = socket._httpMessage._headers;
   }
 
   result.listeners = extractListeners(socket, 'connect');
@@ -149,21 +149,29 @@ function extractListeners (obj, listenerName) {
 
 function extractTimer (result, timer) {
   var type = 'setTimeout';
-  if (timer._list) {
-    if (timer._list._idleNext) {
-      if (timer._list._idleNext._repeat !== null) {
-        type = 'setInterval';
-      }
+  var entryPoint = null;
 
-      result.startAfter = timer._list._idleNext._idleStart;
-    }
-
-    result.name = timer._list && timer._list._idleNext &&
-    timer._list._idleNext._onTimeout &&
-    timer._list._idleNext._onTimeout.name !== '' ? timer._list._idleNext._onTimeout.name : 'anonymous';
-    result.type = type;
-    result.msecs = timer._list.msecs;
+  // node >= 6
+  if (timer._list && timer._list._idleNext) {
+    entryPoint = timer._list._idleNext;
+  } else if (timer._idleNext) { // backward compatibilty with node 4
+    entryPoint = timer._idleNext;
   }
+
+  if (!entryPoint) {
+    return;
+  }
+
+  if (entryPoint._repeat !== null) {
+    type = 'setInterval';
+  }
+
+  result.startAfter = entryPoint._idleStart;
+
+  result.name = entryPoint._onTimeout &&
+  entryPoint._onTimeout.name !== '' ? entryPoint._onTimeout.name : 'anonymous';
+  result.type = type;
+  result.msecs = timer._list ? timer._list.msecs : timer.msecs;
 }
 
 function extractChildProcess (result, child) {

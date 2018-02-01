@@ -3,7 +3,7 @@
 var inspector = require('../index')();
 var assert = require('assert');
 var utils = require('./utils');
-const {TCPConnectWrap} = process.binding('tcp_wrap');
+const TCPConnectWrap = process.binding('tcp_wrap').TCPConnectWrap;
 
 describe('getActiveRequests', function () {
   var oldGetActiveRequests;
