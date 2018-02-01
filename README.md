@@ -110,3 +110,17 @@ Functions that can be wrapped :
 
 
 **/!\ Enabling this option may lower performance of the functions involved.**
+
+# Test
+
+```console
+$ npm test
+```
+
+To generate coverage :
+
+```console
+$ npm run test-coverage
+```
+
+Coverage report can be found in coverage/.
