@@ -8,6 +8,8 @@
   },
   "keywords": [
     "event-loop",
+    "event loop",
+    "libuv",
     "inspector",
     "nextTick",
     "setImmediate",
