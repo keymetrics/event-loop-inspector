@@ -1,5 +1,7 @@
 'use strict';
 
+var utils = require('./utils');
+
 module.exports = function (allowWrapper) {
   if (allowWrapper) {
     global.setImmediate = wrapCallbackFirst(global, 'setImmediate');
@@ -20,7 +22,7 @@ module.exports = function (allowWrapper) {
         }
 
         // skip stdio
-        if ((h.constructor.name === 'WriteStream' || h.constructor.name === 'WriteWrap') && h._isStdio) {
+        if (isStdIO(h)) {
           return;
         }
 
@@ -29,13 +31,13 @@ module.exports = function (allowWrapper) {
         };
 
         if (obj.type === 'Server') {
-          extractServer(obj, h);
+          utils.extractServer(obj, h);
         } else if (obj.type === 'Socket') {
-          extractSocket(obj, h);
+          utils.extractSocket(obj, h);
         } else if (obj.type === 'Timer') {
-          extractTimer(obj, h);
+          utils.extractTimer(obj, h);
         } else if (obj.type === 'ChildProcess') {
-          extractChildProcess(obj, h);
+          utils.extractChildProcess(obj, h);
         }
 
         // create array if this is the first item of this type
@@ -52,7 +54,7 @@ module.exports = function (allowWrapper) {
         }
 
         // skip stdio
-        if ((r.constructor.name === 'WriteStream' || r.constructor.name === 'WriteWrap') && r.handle.owner._isStdio) {
+        if (isStdIO(r)) {
           return;
         }
 
@@ -61,7 +63,7 @@ module.exports = function (allowWrapper) {
         };
 
         if (obj.type === 'TCPConnectWrap') {
-          extractTCPWrap(obj, r);
+          utils.extractTCPWrap(obj, r);
         }
 
         // create array if this is the first item of this type
@@ -91,102 +93,12 @@ module.exports = function (allowWrapper) {
   };
 };
 
-function extractServer (result, server) {
-  try {
-    var a = server.address();
-  } catch (e) {
-    return;
+function isStdIO (obj) {
+  if ((obj.constructor.name === 'WriteStream' || obj.constructor.name === 'WriteWrap') && (obj._isStdio || (obj.handle && obj.handle.owner && obj.handle.owner._isStdio))) {
+    return true;
   }
 
-  if (a) {
-    result.address = a.address;
-    result.port = a.port;
-  }
-
-  result.listeners = extractListeners(server, 'connection');
-}
-
-function extractSocket (result, socket) {
-  if (socket.localAddress) {
-    result.localAddress = socket.localAddress;
-    result.localPort = socket.localPort;
-    result.remoteAddress = socket.remoteAddress;
-    result.remotePort = socket.remotePort;
-    result.remoteFamily = socket.remoteFamily;
-  } else if (socket._handle && (socket._handle.fd != null)) {
-    result.fd = socket._handle.fd;
-  } else {
-    result.info = 'unknown socket';
-  }
-
-  if (socket._httpMessage) {
-    result.method = socket._httpMessage.method;
-    result.path = socket._httpMessage.path;
-    result.headers = socket._httpMessage._headers;
-  }
-
-  result.listeners = extractListeners(socket, 'connect');
-}
-
-function extractListeners (obj, listenerName) {
-  var listerners = [];
-
-  if (!obj.listeners || typeof obj.listeners !== 'function') {
-    return listerners;
-  }
-
-  var connectListeners = obj.listeners(listenerName);
-  if (connectListeners && connectListeners.length) {
-    connectListeners.forEach(function (fn) {
-      listerners.push({
-        name: fn.name || '(anonymous)'
-      });
-    });
-  }
-
-  return listerners;
-}
-
-function extractTimer (result, timer) {
-  var type = 'setTimeout';
-  var entryPoint = null;
-
-  // node >= 6
-  if (timer._list && timer._list._idleNext) {
-    entryPoint = timer._list._idleNext;
-  } else if (timer._idleNext) { // backward compatibilty with node 4
-    entryPoint = timer._idleNext;
-  }
-
-  if (!entryPoint) {
-    return;
-  }
-
-  if (entryPoint._repeat !== null) {
-    type = 'setInterval';
-  }
-
-  result.startAfter = entryPoint._idleStart;
-
-  result.name = entryPoint._onTimeout &&
-  entryPoint._onTimeout.name !== '' ? entryPoint._onTimeout.name : 'anonymous';
-  result.type = type;
-  result.msecs = timer._list ? timer._list.msecs : timer.msecs;
-}
-
-function extractChildProcess (result, child) {
-  result.args = child.spawnargs;
-  result.spawnfile = child.spawnfile;
-  result.pid = child.pid;
-  result.connected = child.connected;
-  result.killed = child.killed;
-}
-
-function extractTCPWrap (result, tcp) {
-  result.address = tcp.address;
-  result.port = tcp.port;
-  result.localAddress = tcp.localAddress;
-  result.localPort = tcp.localPort;
+  return false;
 }
 
 function wrapCallbackFirst (mod, name) {

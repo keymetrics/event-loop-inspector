@@ -3,23 +3,21 @@
 var inspector = require('../index')();
 var assert = require('assert');
 var utils = require('./utils');
-const TCPConnectWrap = process.binding('tcp_wrap').TCPConnectWrap;
 
 describe('getActiveRequests', function () {
-  var oldGetActiveRequests;
+  var oldGetActive;
 
   before(function () {
-    oldGetActiveRequests = process._getActiveRequests;
+    oldGetActive = process._getActiveHandles;
   });
 
   after(function () {
-    process._getActiveRequests = oldGetActiveRequests;
+    process._getActiveHandles = oldGetActive;
   });
 
   it('should dump and getActiveRequests', function () {
-    process._getActiveRequests = function () {
+    process._getActiveHandles = function () {
       return [null,
-        new TCPConnectWrap(),
         {
           constructor: {
             name: 'WriteStream',
@@ -41,9 +39,6 @@ describe('getActiveRequests', function () {
 
     utils.testCommon(dump);
 
-    assert.equal(dump.requests.TCPConnectWrap[0].hasOwnProperty('address'), true);
-    assert.equal(dump.requests.TCPConnectWrap[0].hasOwnProperty('port'), true);
-    assert.equal(dump.requests.TCPConnectWrap[0].hasOwnProperty('localPort'), true);
-    assert.equal(dump.requests.TCPConnectWrap[0].hasOwnProperty('localAddress'), true);
+    assert.equal(Object.keys(dump.requests).length === 0, true);
   });
 });
