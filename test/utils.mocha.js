@@ -33,7 +33,7 @@ describe('getActiveRequests', function () {
       assert.equal(res.info === 'unknown socket', true);
     });
 
-    it('should return fd', function() {
+    it('should return fd', function () {
       var obj = {
         _handle: {
           fd: 'myFd'
