@@ -21,8 +21,8 @@ module.exports = function (allowWrapper) {
           return;
         }
 
-        // skip stdio
-        if (isStdIO(h)) {
+        // skip stdio and pipe between worker and master
+        if (isStdIO(h) || isWorkerPipe(h)) {
           return;
         }
 
@@ -99,6 +99,12 @@ function isStdIO (obj) {
   }
 
   return false;
+}
+
+function isWorkerPipe (obj) {
+  if (obj.constructor.name === 'Pipe' && process.channel === obj) {
+    return true;
+  }
 }
 
 function wrapCallbackFirst (mod, name) {
