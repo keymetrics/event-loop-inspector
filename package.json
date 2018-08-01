@@ -1,6 +1,6 @@
 {
   "name": "event-loop-inspector",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Dump event loop data.",
   "main": "index.js",
   "engines": {
