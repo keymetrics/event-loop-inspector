@@ -38,6 +38,8 @@ module.exports = function (allowWrapper) {
           utils.extractTimer(obj, h);
         } else if (obj.type === 'ChildProcess') {
           utils.extractChildProcess(obj, h);
+        } else if (obj.type === 'MessagePort') {
+          utils.extractMessagePort(obj, h);
         }
 
         // create array if this is the first item of this type

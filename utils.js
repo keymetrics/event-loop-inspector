@@ -90,6 +90,10 @@ var Utils = {
     result.killed = child.killed;
   },
 
+  extractMessagePort: function (result, messagePort) {
+    result.listeners = Object.keys(messagePort._events);
+  },
+
   extractTCPWrap: function (result, tcp) {
     result.address = tcp.address;
     result.port = tcp.port;

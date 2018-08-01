@@ -27,6 +27,8 @@
   "scripts": {
     "test": "mocha ./test/**/*.mocha.js",
     "test-coverage": "nyc --reporter=html --reporter=text mocha ./test/**/*.mocha.js",
+    "test-thread": "node --experimental-worker node_modules/mocha/bin/_mocha ./test/**/*.mocha.js",
+    "test-coverage-thread": "nyc --reporter=html --reporter=text node --experimental-worker node_modules/mocha/bin/_mocha ./test/**/*.mocha.js",
     "lint": "eslint ./test ./index.js"
   },
   "author": {
@@ -45,6 +47,6 @@
     "mocha": "^5.0.0",
     "mysql": "^2.15.0",
     "nyc": "^11.4.1",
-    "release-it": "^6.1.1"
+    "semver": "^5.5.0"
   }
 }
