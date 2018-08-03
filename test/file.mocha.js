@@ -9,11 +9,6 @@ var assert = require('assert');
 var utils = require('./utils');
 
 describe('Files', function () {
-
-  setInterval(function() {
-    inspector.dump();
-  }, 10).unref();
-
   it('should get dump when reading a file as stream', function (done) {
     readStream
       .on('readable', function myFunc () {
