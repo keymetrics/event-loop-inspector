@@ -1,11 +1,14 @@
 'use strict';
 
 var utils = require('./utils');
+var cluster = require('cluster');
 
 module.exports = function (allowWrapper) {
+  var currentProcess = (cluster.isWorker) ? cluster.worker.process : process;
+
   if (allowWrapper) {
     global.setImmediate = wrapCallbackFirst(global, 'setImmediate');
-    process.nextTick = wrapCallbackFirst(process, 'nextTick');
+    process.nextTick = wrapCallbackFirst(currentProcess, 'nextTick');
     global.activeSetImmediateAndNextTick = {counter: 0};
   }
 
@@ -16,7 +19,7 @@ module.exports = function (allowWrapper) {
       var setImmediates = [];
       var nextTicks = [];
 
-      process._getActiveHandles().forEach(function (h) {
+      currentProcess._getActiveHandles().forEach(function (h) {
         if (!h) {
           return;
         }
@@ -50,7 +53,7 @@ module.exports = function (allowWrapper) {
         handles[obj.type].push(obj);
       });
 
-      process._getActiveRequests().forEach(function (r) {
+      currentProcess._getActiveRequests().forEach(function (r) {
         if (!r) {
           return;
         }
