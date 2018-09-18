@@ -15,8 +15,8 @@ describe('Files', function () {
         while (readStream.read() !== null) {
           var dump = inspector.dump();
           utils.testCommon(dump);
-          assert.equal(dump.requests.hasOwnProperty('FSReqWrap'), true);
-          assert.equal(dump.requests.FSReqWrap.length > 0, true);
+          assert.strictEqual(dump.requests.hasOwnProperty('FSReqWrap'), true);
+          assert.strictEqual(dump.requests.FSReqWrap.length > 0, true);
         }
       })
       .on('end', function () {
@@ -31,14 +31,14 @@ describe('Files', function () {
       .on('readable', function myFunc () {
         while ((chunk = readStream.read()) !== null) {
           var dump = inspector.dump();
-          assert.equal(dump.requests.FSReqWrap.length > 0, true);
+          assert.strictEqual(dump.requests.FSReqWrap.length > 0, true);
           fs.writeFile(path.join(__dirname, '/fixtures/tmp/log_copy.txt'), chunk, function (err) {
             if (err) {
               console.log(err);
             }
 
             var dump = inspector.dump();
-            assert.equal(dump.requests.FSReqWrap.length > 0, true);
+            assert.strictEqual(dump.requests.FSReqWrap.length > 0, true);
           });
         }
       })
@@ -53,7 +53,7 @@ describe('Files', function () {
       done();
     });
     var dump = inspector.dump();
-    assert.equal(dump.requests.hasOwnProperty('FSReqWrap'), true);
-    assert.equal(dump.requests.FSReqWrap.length > 0, true);
+    assert.strictEqual(dump.requests.hasOwnProperty('FSReqWrap'), true);
+    assert.strictEqual(dump.requests.FSReqWrap.length > 0, true);
   });
 });

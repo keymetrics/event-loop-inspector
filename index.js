@@ -9,7 +9,7 @@ module.exports = function (allowWrapper) {
   if (allowWrapper) {
     global.setImmediate = wrapCallbackFirst(global, 'setImmediate');
     process.nextTick = wrapCallbackFirst(currentProcess, 'nextTick');
-    global.activeSetImmediateAndNextTick = {counter: 0};
+    global.activeSetImmediateAndNextTick = { counter: 0 };
   }
 
   return {

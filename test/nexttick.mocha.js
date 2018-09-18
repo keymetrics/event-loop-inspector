@@ -16,14 +16,14 @@ describe('Next tick', function () {
           isAlive = true;
         }
       }
-      assert.equal(isAlive, false);
+      assert.strictEqual(isAlive, false);
 
       done();
     });
 
     var dump = inspector.dump();
     utils.testCommon(dump);
-    assert.equal(dump.nextTicks.length, 2);
-    assert.equal(dump.nextTicks[0].name, 'nextTickTest');
+    assert.strictEqual(dump.nextTicks.length, 2);
+    assert.strictEqual(dump.nextTicks[0].name, 'nextTickTest');
   });
 });

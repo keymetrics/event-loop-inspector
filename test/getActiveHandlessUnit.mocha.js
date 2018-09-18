@@ -39,6 +39,6 @@ describe('getActiveRequests', function () {
 
     utils.testCommon(dump);
 
-    assert.equal(Object.keys(dump.requests).length === 0, true);
+    assert.strictEqual(Object.keys(dump.requests).length === 0, true);
   });
 });
