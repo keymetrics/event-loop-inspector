@@ -30,7 +30,7 @@ var Utils = {
     if (socket._httpMessage) {
       result.method = socket._httpMessage.method;
       result.path = socket._httpMessage.path;
-      result.headers = socket._httpMessage._headers;
+      result.headers = "function" === typeof socket._httpMessage.getHeaders ? socket._httpMessage.getHeaders() : socket._httpMessage._headers;
     }
 
     result.listeners = Utils.extractListeners(socket, 'connect');
