@@ -6,6 +6,10 @@
   "engines": {
     "node": ">=4.0.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keymetrics/event-loop-inspector.git"
+  },
   "keywords": [
     "event-loop",
     "event loop",
